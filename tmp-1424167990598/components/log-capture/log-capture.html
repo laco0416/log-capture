@@ -1,0 +1,53 @@
+<link rel="import" href="../polymer/polymer.html">
+<!--
+Element providing solution to no problem in particular.
+
+##### Example
+
+    <log-capture></log-capture>
+
+@element log-capture
+@blurb Element providing solution to no problem in particular.
+@status alpha
+@homepage http://laco0416.github.io/log-capture
+-->
+<polymer-element name="log-capture" attributes="">
+  <template>
+    <link rel="stylesheet" href="log-capture.css">
+    <div id="base">
+      <template repeat="{{ log in logs }}">
+        <span class="logLine">{{ log | logFilter}}</span><br/>
+      </template>
+    </div>
+  </template>
+  <script>
+    var logs_ = [];
+    Polymer({
+      get logs() {
+        return logs_;
+      },
+      logFilter: function (str) {
+        return "> " + str;
+      },
+      ready: function () {
+        var self = this;
+        if (console) {
+          var log = console.log;
+          console.log = function (message) {
+            self.writeLog(message);
+            log.apply(console, arguments);
+          };
+        }
+      },
+      writeLog: function (message) {
+        var base = this.$.base;
+        this.logs.push(message);
+        this.fire('capture', {message: message});
+        this.async(function () {
+          base.scrollTop = base.scrollHeight;
+        }, null, 2);
+      }
+    })
+    ;
+  </script>
+</polymer-element>

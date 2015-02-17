@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>log-capture</title>
+
+  <script src="../../webcomponentsjs/webcomponents.js"></script>
+  <script src="../../web-component-tester/browser.js"></script>
+
+  <!-- Step 1: import the element to test -->
+  <link rel="import" href="../log-capture.html">
+
+</head>
+<body>
+
+  <log-capture id="fixture"></log-capture>
+
+  <script>
+    var myEl = document.getElementById('fixture');
+
+    suite('<log-capture>', function() {
+
+      test('logs is defined', function() {
+        assert.equal(myEl.logs != "undefined", true);
+      });
+
+      test('log capturing', function() {
+        myEl.writeLog('hello');
+        assert.equal(myEl.logs[myEl.logs.length-1], "hello");
+      });
+
+      test('fire captured event', function(done) {
+        myEl.addEventListener('capture', function(event) {
+          assert.equal(event.detail.message, "hello");
+          done();
+        });
+        myEl.writeLog("hello");
+      });
+
+    });
+  </script>
+
+</body>
+</html>
