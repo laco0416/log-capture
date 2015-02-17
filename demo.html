@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>log-capture Demo</title>
+  <script src="../webcomponentsjs/webcomponents.js"></script>
+  <link rel="import" href="log-capture.html">
+</head>
+<body unresolved>
+<p>An `log-capture` looks like this:</p>
+<log-capture></log-capture>
+<script>
+  setInterval(function () {
+    console.log(new Date().toUTCString());
+  }, 3000);
+</script>
+</body>
+</html>
